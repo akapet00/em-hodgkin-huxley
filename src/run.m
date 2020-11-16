@@ -1,11 +1,9 @@
 clear;
 
-%%
-% global constants
+%% global constants 
 global E_Na E_K E_L gbar_Na gbar_K gbar_L C_m T
 
-%%
-% model constants setup
+%% HH model electrical constants setup
 E_Na = 50.0;        % reversal potential in Na ion channel [mV]
 E_K = -77.0;        % reversal potential in K ion channel [mV]
 E_L = -54.387;      % leakage reversal potential [mV]
@@ -15,8 +13,7 @@ gbar_L = 0.3;       % leakage conductance [mS/cm^2]
 C_m = 1.0;          % membrane capacitance [F/cm^2]
 T = 6.3;            % temperature [°C]
 
-%%
-% ode setup
+%% ode system time and initial conditions setup
 t_span = [0, 120];
 V0 = -65.0;
 m0 = alpha_m(V0) / (alpha_m(V0)+beta_m(V0));
@@ -24,12 +21,11 @@ h0 = alpha_h(V0) / (alpha_h(V0)+beta_h(V0));
 n0 = alpha_n(V0) / (alpha_n(V0)+beta_n(V0));
 y0 = [V0; m0; h0; n0];
 
-%%
-% solve the ode system via Runge Kutta method of order 4
+%% solution of the ode system via RK45 method
 [t, y] = ode45(@HodgkinHuxley, t_span, y0);
 
-%%
-%plot solution
+%% visualization
+figure('renderer', 'painters', 'position', [100, 200, 800, 600]);
 subplot(3,1,1)
 iinj = I(t);
 plot(t, iinj, 'b-');
