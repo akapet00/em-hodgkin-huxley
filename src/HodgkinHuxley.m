@@ -18,7 +18,7 @@ function hh_ode = HodgkinHuxley(t, y)
 %           last row represents the magnetic flux and its change in time
 
     % global variables defined in the `run.m` script
-    global E_Na E_K E_L gbar_Na gbar_K gbar_L C_m T
+    global A E_Na E_K E_L gbar_Na gbar_K gbar_L C_m T
     global k a b k1 k2
     
     % initial conditions unpacking
@@ -31,7 +31,7 @@ function hh_ode = HodgkinHuxley(t, y)
     % ode system additionally considering the effect of the temperature and
     % magnetic flux
     hh_ode = [
-        1/C_m * (I(10, t, 100) - gbar_Na*h*m^3*(V-E_Na) ...
+        1/C_m * (I(A, t, 100) - gbar_Na*h*m^3*(V-E_Na) ...
                 - gbar_K*n^4*(V-E_K) - gbar_L*(V-E_L) - k*(a+3*b*phi^2)*V);
         temp_scaler(T) * (alpha_m(V)*(1-m) - beta_m(V)*m);
         temp_scaler(T) * (alpha_h(V)*(1-h) - beta_h(V)*h);
