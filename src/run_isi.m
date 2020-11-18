@@ -17,10 +17,8 @@ title('action potential in time, V(t)');
 legend('V(t)', 'local maxima');
 grid on;
 
-
 %% calculate inter-spike interval
 isi = diff(t_spike);
-mean_isi = mean(isi);
 
 fig2 = figure('renderer', 'painters', 'position', [100, 200, 900, 500]);
 subplot(1, 2, 1)
@@ -43,7 +41,7 @@ if save_figures
         '_k-', num2str(k), '.fig']));
 end
 
-%% calculate ISI vs. T
+%% calculate mean ISI vs. T
 colors = ['r', 'g', 'b', 'k'];
 markers = ['o', 's', 'x', '^'];
 ks = [0.001, 0.1, 0.3, 0.9];
