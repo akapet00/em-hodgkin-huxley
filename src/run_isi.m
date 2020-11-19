@@ -1,61 +1,68 @@
 set_input;
 
-%% read simulated data
+%% Interspike Interval (ISI) for a fixed induction coef and a fixed temp
 data = readmatrix(fullfile('output', 'data', ...
-    'tVmhnPhi_t-300_Itstop-300_T-5_k-0.9.csv'));
+    'tVmhnPhi_tsim-300_tIinjstop-300_T-6_k-0.27.csv'));
 t = data(:, 1);
 V = data(:, 2);
 
-%% find spikes and associated spike times
+% find local maxima
 [V_spike, t_spike] = findpeaks(V, t);
 
+% derive ISI, its probability mass function and associated entropy
+isi = diff(t_spike);
+
 fig1 = figure('renderer', 'painters', 'position', [100, 200, 800, 800]);
+subplot(2, 2, [1, 2])
 plot(t, V, 'b-', t_spike, V_spike, 'rx');
 xlabel('t [ms]'), ylabel('V [mV]');
 ylim([min(V) - 0.1*max(V), 1.1*max(V)]);
-title('action potential in time, V(t)');
+title('action potential dynamics, V(t)');
 legend('V(t)', 'local maxima');
 grid on;
 
-%% calculate inter-spike interval
-isi = diff(t_spike);
-
-fig2 = figure('renderer', 'painters', 'position', [100, 200, 900, 500]);
-subplot(1, 2, 1)
-h = histogram(isi, 'binmethod', 'fd', ...
+subplot(2, 2, 3)
+h = histogram(isi, 'binmethod', 'sqrt', ...
     'edgecolor', 'k', 'facecolor', 'r');
-xlabel('inter-spike interval [ms]'), ylabel('N');
-title('ISI histogram');
+xlabel('ISI [ms]'), ylabel('N');
+title('inter-spike interval (ISI) histogram');
 
-subplot(1, 2, 2)
-p = histogram(isi, 'binmethod', 'fd', 'normalization', 'probability', ...
+subplot(2, 2, 4)
+p = histogram(isi, 'binmethod', 'sqrt', 'normalization', 'probability', ...
     'edgecolor', 'k', 'facecolor', 'r');
 pmf = p.Values(p.Values>0);
 entropy = -sum(pmf .* log2(pmf));
-xlabel('inter-spike interval [ms]'), ylabel('p');
-title(['ISI PMF, entropy=', num2str(entropy)]);
+xcor = 0.9 * max(get(gca, 'xlim'));
+ycor = 0.9 * max(get(gca, 'ylim'));
+text(xcor, ycor, {'entropy', ['Hp = ', num2str(entropy)]});
+xlabel('ISI [ms]'), ylabel('p');
+title('ISI probability mass function');
 
 if save_figures
-    savefig(fig2, fullfile(figdir, ['isi_hist', '_t-', num2str(t_span(2)), ...
-        '_Itstop-', num2str(t_stop), '_T-', num2str(T), ...
-        '_k-', num2str(k), '.fig']));
+    figname = fullfile(figdir, ['ISI', ...
+        '_tsim-300_tIinjstop-300', ...
+        '_T-', num2str(T), ...
+        '_k-', num2str(k)]);
+    savefig(fig1, [figname, '.fig']);
+    saveas(fig1, [figname, '.eps']);
 end
 
-%% calculate mean ISI vs. T
-colors = ['r', 'g', 'b', 'k'];
+%% ISI, multiple temps and several induction coefs
+colors = ['b', 'k', 'r', 'g'];
 markers = ['o', 's', 'x', '^'];
-ks = [0.001, 0.1, 0.3, 0.9];
-Ts = linspace(1, 30, 30);
+ks = [0.03, 0.09, 0.27, 0.81];
+Ts = linspace(1.0, 30.0, 30);
 mean_isis = zeros(length(ks)*length(Ts), 1);
 isi_idx = 1;
 plot_idx = 1;
-fig3 = figure('renderer', 'painters', 'position', [100, 200, 900, 500]);
+fig2 = figure('renderer', 'painters', 'position', [100, 200, 900, 500]);
 hold on;
 for i = 1:length(ks)
     k = ks(i);
     for j = 1:length(Ts)
         T = Ts(j);
-        filename = ['tVmhnPhi_t-300_Itstop-300_T-', num2str(T), '_k-', num2str(k), '.csv'];
+        filename = ['tVmhnPhi_tsim-300_tIinjstop-300_T-', num2str(T), ...
+            '_k-', num2str(k), '.csv'];
         filepath = fullfile('output', 'data', filename);
         data = readmatrix(filepath);
         t = data(:, 1);
@@ -66,9 +73,10 @@ for i = 1:length(ks)
         isi_idx = isi_idx+1;
     end
     plot(Ts, mean_isis(plot_idx:length(Ts)*i), ...
-        [colors(i), markers(i), '-'], 'displayname', ['k=', num2str(k)]);
+        [colors(i), markers(i), '-'], 'displayname', ...
+        ['k = ', num2str(k)]);
     xlabel('T [°C]'), ylabel('<ISI> [ms]');
-    title('<ISI>(t)');
+    title('<ISI>(T)');
     plot_idx = plot_idx + length(Ts);
 end
 legend;
@@ -76,6 +84,55 @@ grid on;
 hold off;
 
 if save_figures
-    savefig(fig3, fullfile(figdir, 'isi_vs_T_k-multiple.fig'));
-    save
+    figname = fullfile(figdir, ['mean_ISI', ...
+        '_tsim-300_tIinjstop-300', ...
+        '_T-multiple_values', ...
+        '_k-', sprintf('%d-', ks)]);
+    savefig(fig2, [figname, '.fig']);
+    saveas(fig2, [figname, '.eps']);
+end
+
+%% ISI, multiple induction coefs and several temps
+colors = ['b', 'k', 'r', 'g'];
+markers = ['o', 's', 'x', '^'];
+ks = linspace(0.0, 5.0, 100);
+Ts = [5.0, 10.0, 15.0, 20.0];
+mean_isis = zeros(length(ks)*length(Ts), 1);
+isi_idx = 1;
+plot_idx = 1;
+fig3 = figure('renderer', 'painters', 'position', [100, 200, 900, 500]);
+hold on;
+for i = 1:length(Ts)
+    T = Ts(i);
+    for j = 1:length(ks)
+        k = ks(j);
+        filename = ['tVmhnPhi_tsim-300_tIinjstop-300_T-', num2str(T), ...
+            '_k-', num2str(k), '.csv'];
+        filepath = fullfile('output', 'data', filename);
+        data = readmatrix(filepath);
+        t = data(:, 1);
+        V = data(:, 2);
+        [V_spike, t_spike] = findpeaks(V, t);
+        isi = diff(t_spike);
+        mean_isis(isi_idx) = mean(isi);
+        isi_idx = isi_idx+1;
+    end
+    plot(ks, mean_isis(plot_idx:length(ks)*i), ...
+        [colors(i), markers(i), '-'], ...
+        'displayname', ['T = ', num2str(T), '°C']);
+    xlabel('k'), ylabel('<ISI> [ms]');
+    title('<ISI>(k)');
+    plot_idx = plot_idx + length(ks);
+end
+legend;
+grid on;
+hold off;
+
+if save_figures
+    figname = fullfile(figdir, ['mean_ISI', ...
+        '_tsim-300_tIinjstop-300', ...
+        '_T-', sprintf('%d-', Ts), ...
+        '_k-multiple_values']);
+    savefig(fig3, [figname, '.fig']);
+    saveas(fig3, [figname, '.eps']);
 end
