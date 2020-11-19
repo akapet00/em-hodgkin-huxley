@@ -1,4 +1,4 @@
-function iinj = I(A, t, t_stop)
+function iinj = Iinj(A, t, t_stop)
 %% Applied current
 % The model of the current source in Hodgkin-Huxley model which represents
 % the influence of ion pumps -- the movement of ions across a membrane
