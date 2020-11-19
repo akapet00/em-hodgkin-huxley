@@ -1,4 +1,4 @@
-function hh_ode = HodgkinHuxley(t, y)
+function hh_ode = HodgkinHuxley(t, y, basic_params, induction_params)
 %% Hodgkin-Huxley neuron model
 % The Hodgkin-Huxley model describes the initialization and propagation
 % of action potential using a set of four coupled ordinary differential
@@ -9,17 +9,42 @@ function hh_ode = HodgkinHuxley(t, y)
 %   y : vector [1x5], initial conditions for membrane voltage, `V` [mV], 
 %       activation parameters, `m`, `h` and `n`, respectively and for
 %       magnetic flux, `phi`
-% 
+%   basic_params : vector [1x10], Hodgkin-Huxley model parameters -
+%       injected currend amplitude [uA/cm^2], finish time point of injected
+%       current influence [ms], Na ion channel reversal potential [mV], K
+%       ion channel reversal potential [mV], leakage channel reversal
+%       potential [mV], Na ion channel conductance [mS/cm^2], K ion channel
+%       conductance [mS/cm^2], leakage channel conductance [mS/cm^2]
+%       membrane capacitance [F/cm^2], neuron ambient temperature [°C]
+%   induction_params : vector [1x5], additional induction-based parameters,
+%       induction coefficient, memristor parameters a & b, magnetic flux
+%       potential-based change scaler, magnetic flux leakage scaler
+%
 % Returns
 %   hh_ode : matrix [5, length(t)] where the first row stands for the
 %           membrane potential change over time and the following three
 %           rows outline the change of activation parameters describing
 %           the nature of the opening and closing ion channels gates, the
 %           last row represents the magnetic flux and its change in time
-
-    % global variables defined in the `run.m` script
-    global A t_stop E_Na E_K E_L gbar_Na gbar_K gbar_L C_m T
-    global k a b k1 k2
+    
+    % H-H model parameters unpacking
+    A = basic_params(1);
+    t_stop = basic_params(2);
+    E_Na = basic_params(3);
+    E_K = basic_params(4);
+    E_L = basic_params(5);
+    gbar_Na = basic_params(6);
+    gbar_K = basic_params(7);
+    gbar_L = basic_params(8);
+    C_m = basic_params(9);
+    T = basic_params(10);
+    
+    % induction parameters unpacking
+    k = induction_params(1);
+    a = induction_params(2);
+    b = induction_params(3);
+    k1 = induction_params(4);
+    k2 = induction_params(5);
     
     % initial conditions unpacking
     V = y(1);
