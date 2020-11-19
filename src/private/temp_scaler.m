@@ -1,3 +1,3 @@
-function ret = temp_scaler(t)
-    ret = 3.0^((t-6.3)/10.0);
+function ret = temp_scaler(T)
+    ret = 3.0^((T-6.3)/10.0);
 end
