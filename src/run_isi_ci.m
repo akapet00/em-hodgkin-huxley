@@ -1,5 +1,10 @@
 set_input;
 
+%% sens. analysis of mean ISI vs. k, for a single temp, T=15°C
+% consider different values of conductances of sodium, potassium and
+% leakage ion channel through the stochastic collocation procedure and run
+% multiple experiments in order to obtain uncertainty quantification and
+% raw output for further post-processing and sensitivity analysis
 var_percents = [5., 10., 20., 50.];
 sc_points = [3, 5, 7, 9];
 for vp_idx = 1:numel(var_percents)
