@@ -1,7 +1,7 @@
 set_input;
 
-ks = linspace(0.0016, 3.6, 100);
-T = 16.3;
+ks = linspace(0.0, 5.0, 100);
+T = 15;
 
 mean_isis = zeros(length(ks), 1);
 V_min = zeros(length(ks), 1);
@@ -9,13 +9,17 @@ V_max = zeros(length(ks), 1);
 
 for i = 1:length(ks)
     k = ks(i);
-    filename = ['tVmhnPhi_t-300_Itstop-300_T-', num2str(T), '_k-', num2str(k), '.csv'];
+    filename= ['tVmhnPhi', ...
+        '_tsim-', num2str(t_stop), ...
+        '_tIinjstop-', num2str(t_stop), ...
+        '_T-', num2str(T), ...
+        '_k-', num2str(k), '.csv'];
     filepath = fullfile('output', 'data', filename);
     data = readmatrix(filepath);
     t = data(:, 1);
     V = data(:, 2);
-    V_min(i) = min(V(floor(end/2):end));
-    V_max(i) = max(V(floor(end/2):end));
+    V_min(i) = min(V(floor(length(V)/2):end));
+    V_max(i) = max(V(floor(length(V)/2):end));
     [V_spike, t_spike] = findpeaks(V, t);
     isi = diff(t_spike);
     mean_isis(i) = mean(isi);
@@ -31,8 +35,9 @@ legend;
 grid on;
 hold off;
 
-k = 0.001;
-Ts = linspace(1, 30, 30);
+ks = [0.03, 0.09, 0.27, 0.81];
+k = 0;
+Ts = linspace(1.0, 30.0, 30);
 
 mean_isis = zeros(length(Ts), 1);
 V_min = zeros(length(Ts), 1);
@@ -40,7 +45,11 @@ V_max = zeros(length(Ts), 1);
 
 for i = 1:length(Ts)
     T = Ts(i);
-    filename = ['tVmhnPhi_t-300_Itstop-300_T-', num2str(T), '_k-', num2str(k), '.csv'];
+    filename= ['tVmhnPhi', ...
+        '_tsim-', num2str(t_stop), ...
+        '_tIinjstop-', num2str(t_stop), ...
+        '_T-', num2str(T), ...
+        '_k-', num2str(k), '.csv'];
     filepath = fullfile('output', 'data', filename);
     data = readmatrix(filepath);
     t = data(:, 1);
