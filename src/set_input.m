@@ -2,7 +2,7 @@ clear;
 
 %% save output
 save_data = 0;
-save_figures = 1;
+save_figures = 0;
 
 if save_data
     datadir = fullfile('output', 'data');
