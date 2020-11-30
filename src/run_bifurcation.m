@@ -14,7 +14,7 @@ for i = 1:length(ks)
         '_tIinjstop-', num2str(t_stop), ...
         '_T-', num2str(T), ...
         '_k-', num2str(k), '.csv'];
-    filepath = fullfile('output', 'data', filename);
+    filepath = fullfile('output', 'deterministic_model', 'data', filename);
     data = readmatrix(filepath);
     t = data(:, 1);
     V = data(:, 2);
@@ -50,7 +50,7 @@ for i = 1:length(Ts)
         '_tIinjstop-', num2str(t_stop), ...
         '_T-', num2str(T), ...
         '_k-', num2str(k), '.csv'];
-    filepath = fullfile('output', 'data', filename);
+    fullfile('output', 'deterministic_model', 'data', filename);
     data = readmatrix(filepath);
     t = data(:, 1);
     V = data(:, 2);

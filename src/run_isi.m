@@ -1,7 +1,7 @@
 set_input;
 
 %% Interspike Interval (ISI) for a fixed induction coef and a fixed temp
-data = readmatrix(fullfile('output', 'data', ...
+data = readmatrix(fullfile('output', 'deterministic_model', 'data', ...
     'tVmhnPhi_tsim-300_tIinjstop-300_T-6_k-0.27.csv'));
 t = data(:, 1);
 V = data(:, 2);
@@ -63,7 +63,8 @@ for i = 1:length(ks)
         T = Ts(j);
         filename = ['tVmhnPhi_tsim-300_tIinjstop-300_T-', num2str(T), ...
             '_k-', num2str(k), '.csv'];
-        filepath = fullfile('output', 'data', filename);
+        filepath = fullfile('output', 'deterministic_model', 'data', ...
+            filename);
         data = readmatrix(filepath);
         t = data(:, 1);
         V = data(:, 2);
@@ -108,7 +109,8 @@ for i = 1:length(Ts)
         k = ks(j);
         filename = ['tVmhnPhi_tsim-300_tIinjstop-300_T-', num2str(T), ...
             '_k-', num2str(k), '.csv'];
-        filepath = fullfile('output', 'data', filename);
+        filepath = fullfile('output', 'deterministic_model', 'data', ...
+            filename);
         data = readmatrix(filepath);
         t = data(:, 1);
         V = data(:, 2);

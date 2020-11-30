@@ -13,7 +13,8 @@ for vp_idx = 1:numel(var_percents)
         sc_point = sc_points(sp_idx);
         filename = [num2str(var_percent), '_perCent_DoE_SC_', ...
             num2str(sc_point), '.mat'];
-        filepath =  fullfile('sensitivity_analysis', 'sc_input', filename);
+        filepath =  fullfile('output', 'sensitivity_analysis', ...
+            'sc_input', 'tsim-300_tIinjstop-300_T-15_k-0-2', filename);
         load(filepath);
         gbar_Na_list = DoE(:,1); % maximum sodium ion channel conductance
         gbar_K_list = DoE(:,2); % maximum potassium ion channel conductance
@@ -51,7 +52,8 @@ for vp_idx = 1:numel(var_percents)
             '_k-', num2str(ks(1)), '-', num2str(ks(end)), ...
             '_SC-', num2str(sc_point), ...
             '_var-', num2str(var_percent), '.mat'];
-        filepath =  fullfile('sensitivity_analysis', 'sc_output', filename);
+        filepath =  fullfile('output', 'sensitivity_analysis', ...
+            'sc_output', filename);
         save(filepath, 'mean_isi_per_k_per_gbar');
         toc;
     end

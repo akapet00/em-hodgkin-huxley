@@ -5,10 +5,10 @@ save_data = 0;
 save_figures = 0;
 
 if save_data
-    datadir = fullfile('output', 'data');
+    datadir = fullfile('output', 'deterministic_model', 'data');
 end
 if save_figures
-    figdir = fullfile('output', 'figures');
+    figdir = fullfile('output', 'deterministic_model', 'figures');
 end
 
 %% HH model electrical constants
