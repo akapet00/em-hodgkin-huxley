@@ -24,8 +24,10 @@ Run any script that is titled `run_X.m` where X is one of the following:
 * `isi` - bifurcation analysis, interspike interval (ISI) for a different scenarios considering multiple values of induction coefficient and several temperatures
 * `isi_ci` - uncertainty quantification and sensitivity analysis regarding dynamics of ISI for different values of ion channel conductance
 * `bifurcation` - [not working] bifurcation analysis, max and min membrane voltage for different induction coefficients and temperature -- in experimental phase
-Simulation data is stored in `output/data` directory and figures in .fig format are stored in `output/figures` directory.
-Simulation data for sensitivity analysis is stored in `sensitivity_analysis` directory.
+
+Directory `output` contains two subsequent directories:
+* `deterministic_model`, which holds sintetic data and figures generated out of deterministic Hodgkin-Huxley model
+* `sensitivity_analysis`, which holds data obtained via stochastic collocation method where ion channel conductances are taken as random variables. Additionaly, ANOVA output is also available.
 
 ## Author
 [Ante Lojic Kapetanovic](http://adria.fesb.hr/~alojic00/)
