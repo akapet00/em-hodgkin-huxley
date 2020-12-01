@@ -101,12 +101,13 @@ def anova(savefig=False):
     for ci_idx, ci in enumerate(VAR_LIST):
         data = loadmat(os.path.join(DATA_PATH, 
             f'SA_ANOVA_indices_CI{ci}_SC_{sc}.mat'))['SS']
-        ax[0, ci_idx].plot(K_LIST, data[:, :3], markevery=5)
+        ax[0, ci_idx].plot(K_LIST, data[:, :3])
         ax[0, ci_idx].legend(['$g_{Na}$', '$g_{K}$', '$g_{L}$'])
-        ax[1, ci_idx].plot(K_LIST, data[:, 3:6], markevery=5)
+        ax[0, ci_idx].set_title(f'{ci}% CI, {sc} SC points')
+        ax[1, ci_idx].plot(K_LIST, data[:, 3:6])
         ax[1, ci_idx].legend(['$g_{Na}$ $g_{K}$', '$g_{Na}$ $g_{L}$',
             '$g_{K}$ $g_{L}$'])
-        ax[2, ci_idx].plot(K_LIST, data[:, 6:], markevery=5)
+        ax[2, ci_idx].plot(K_LIST, data[:, 6:])
         ax[2, ci_idx].set_xlabel('$k$')
         ax[2, ci_idx].legend(['$g_{Na}$', '$g_{K}$', '$g_{L}$'], loc='lower right')
         if ci_idx == 0:
