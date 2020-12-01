@@ -31,7 +31,9 @@ def plotting_config(nrows=1, ncols=1):
 def load_data(ci, sc):
     mean_mat = loadmat(os.path.join(DATA_PATH, f'MEAN_CI{ci}_SC_{sc}.mat'))
     var_mat = loadmat(os.path.join(DATA_PATH, f'VAR_CI{ci}_SC_{sc}.mat'))
-    return mean_mat, var_mat
+    skew_mat = loadmat(os.path.join(DATA_PATH, f'SKEW_CI{ci}_SC_{sc}.mat'))
+    kurt_mat = loadmat(os.path.join(DATA_PATH, f'KURT_CI{ci}_SC_{sc}.mat'))
+    return mean_mat, var_mat, skew_mat, kurt_mat
 
 
 def multiview(savefig=False):
@@ -66,24 +68,35 @@ def multiview(savefig=False):
 def sc_convergence(savefig=False):
     figmarks = ['ko-', 'ks-', 'k^:', 'kv:']
     nfigs = len(CV_LIST)
-    plotting_config(nfigs, 2)
-    fig, ax = plt.subplots(2, nfigs, sharex=True, squeeze=True)
+    plotting_config(nfigs, 4)
+    fig, ax = plt.subplots(4, nfigs, sharex=True, squeeze=True)
     for cv_idx, cv in enumerate(CV_LIST):
         for sc_idx, sc in enumerate(SCP_LIST):
             data = load_data(cv, sc) 
             mean_mISI = data[0]['M'].ravel()
             var_mISI = data[1]['V'].ravel()
-            ax[0, cv_idx].plot(K_LIST, mean_mISI, figmarks[sc_idx], markevery=5,
+            skew_mISI = data[2]['S'].ravel()
+            kurt_mISI = data[3]['K'].ravel()
+            ax[0, cv_idx].plot(K_LIST, mean_mISI, figmarks[sc_idx],
+                markevery=3,
                 label=f'$\\langle mISI \\rangle$, ${sc}$ SC points')
             ax[0, cv_idx].set_title(f'$\\alpha = {cv}$%')
-            ax[1, cv_idx].plot(K_LIST, var_mISI, figmarks[sc_idx], markevery=5,
-                label=f'$Var(mISI)$, ${sc}$ SC pts')
-            ax[1, cv_idx].set_xlabel('$k$')
+            ax[1, cv_idx].plot(K_LIST, var_mISI, figmarks[sc_idx],
+                markevery=3, label=f'$Var(mISI)$, ${sc}$ SC points')
+            ax[2, cv_idx].plot(K_LIST, skew_mISI, figmarks[sc_idx],
+                markevery=3, label=f'$Skew(mISI)$, ${sc}$ SC points')
+            ax[3, cv_idx].plot(K_LIST, kurt_mISI, figmarks[sc_idx],
+                markevery=3, label=f'$Kurt(mISI)$, ${sc}$ SC points')
+            ax[3, cv_idx].set_xlabel('$k$')
             if cv_idx == 0:
                 ax[0, cv_idx].set_ylabel('$mISI (k)$ [ms]')
                 ax[1, cv_idx].set_ylabel('$Var(mISI)(k)$ [ms]')
+                ax[2, cv_idx].set_ylabel('$Skew(mISI)(k)$ [ms]')
+                ax[3, cv_idx].set_ylabel('$Kurt(mISI)(k)$ [ms]')
             ax[0, cv_idx].legend(loc='best')
-            ax[1, cv_idx].legend(loc='best')           
+            ax[1, cv_idx].legend(loc='best')  
+            ax[2, cv_idx].legend(loc='best')
+            ax[3, cv_idx].legend(loc='best')           
     plt.tight_layout()
     plt.show()
     if savefig:
@@ -94,7 +107,7 @@ def sc_convergence(savefig=False):
 def anova(savefig=False):
     from cycler import cycler
     plt.rcParams.update({
-        'axes.prop_cycle': cycler('linestyle', ['-', '--', ':'])})
+        'axes.prop_cycle': cycler('linestyle', ['-', ':', '--'])})
     nfigs = len(CV_LIST)
     plotting_config(nfigs, 3)
     fig, ax = plt.subplots(3, nfigs, sharex=True, sharey=True, squeeze=True)
