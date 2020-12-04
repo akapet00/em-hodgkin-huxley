@@ -1,4 +1,5 @@
-function hh_ode = HodgkinHuxley(t, y, basic_params, induction_params)
+function hh_ode = HodgkinHuxley(t, y, basic_params, induction_params, ...
+    periodic_current)
 %% Hodgkin-Huxley neuron model
 % The Hodgkin-Huxley model describes the initialization and propagation
 % of action potential using a set of four coupled ordinary differential
@@ -19,6 +20,8 @@ function hh_ode = HodgkinHuxley(t, y, basic_params, induction_params)
 %   induction_params : vector [1x5], additional induction-based parameters,
 %       induction coefficient, memristor parameters a & b, magnetic flux
 %       potential-based change scaler, magnetic flux leakage scaler
+%   periodic_current, optional : scalar [1x1], 0 or 1 for constant or
+%       low-high frequency current, respectively
 %
 % Returns
 %   hh_ode : matrix [5, length(t)] where the first row stands for the
@@ -53,10 +56,19 @@ function hh_ode = HodgkinHuxley(t, y, basic_params, induction_params)
     n = y(4);
     phi = y(5);
     
+    % current
+    if (~(exist('periodic_current', 'var')) || periodic_current==0)
+        current = Iinj(A, t, t_stop);
+    elseif periodic_current==1
+        w_hf = 1/t_stop;
+        w_lf = w_hf*100;
+        current = Iinj_periodic(A/10, A/2, A/2, w_hf, w_lf, t, t_stop);
+    end
+    
     % ode system additionally considering the effect of the temperature and
     % magnetic flux
     hh_ode = [
-        1/C_m * (Iinj(A, t, t_stop) - gbar_Na*h*m^3*(V-E_Na) ...
+        1/C_m * (current - gbar_Na*h*m^3*(V-E_Na) ...
                 - gbar_K*n^4*(V-E_K) - gbar_L*(V-E_L) - k*(a+3*b*phi^2)*V);
         temp_scaler(T) * (alpha_m(V)*(1-m) - beta_m(V)*m);
         temp_scaler(T) * (alpha_h(V)*(1-h) - beta_h(V)*h);
