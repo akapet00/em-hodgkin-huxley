@@ -5,13 +5,13 @@ function iinj = Iinj(A, t, t_stop)
 % against their concentration gradient through active transport.
 %
 % Arguments
-%   A : scalar [1xN], amplitude [uA/cm^2]
-%   t : scalar [1xN], discrete simulation time [ms]
-%   t_stop : scaler [1xN], discrete time point [ms] in which action ends
+%   A : scalar [1x1], amplitude [uA/cm^2]
+%   t : scalar [1x1], discrete simulation time [ms]
+%   t_stop : scalar [1x1], discrete time point [ms] in which action ends
 % 
 % Returns
 %   iinj : vector [1, length(t)], consntant current of `A` [uA/cm^2] over
 %   discrete time up to `t_stop` moment
-    
+     
     iinj = A*(t>0) - A*(t>t_stop);
 end
