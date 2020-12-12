@@ -31,13 +31,15 @@ for vp_idx = 1:numel(var_percents)
             mean_isi_per_k = zeros(length(ks), 1);
             for k_idx = 1:length(ks)
                 k = ks(k_idx);
-                basic_params = [A, t_stop, E_Na, E_K, E_L, ...
-                    gbar_Na, gbar_K, gbar_L, C_m, T];
+                basic_params = [A, t_start, t_stop, ...
+                    E_Na, E_K, E_L, gbar_Na, gbar_K, gbar_L, ...
+                    C_m, T];
                 induction_params = [k, a, b, k1, k2];
                 y0 = [V0, m0, h0, n0, phi0];
                 t_span = [0, t_stop];
                 [t, y] = ode45(@(t, y) HodgkinHuxley(...
-                    t, y, basic_params, induction_params), t_span, y0);
+                    t, y, basic_params, induction_params), ...
+                    t_span, y0);
                 V = y(:, 1);
                 [V_spike, t_spike] = findpeaks(V, t);
                 isi = diff(t_spike);

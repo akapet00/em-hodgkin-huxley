@@ -1,5 +1,5 @@
 function hh_ode = HodgkinHuxley(t, y, basic_params, induction_params, ...
-    periodic_current)
+    is_periodic)
 %% Hodgkin-Huxley neuron model
 % The Hodgkin-Huxley model describes the initialization and propagation
 % of action potential using a set of four coupled ordinary differential
@@ -11,17 +11,18 @@ function hh_ode = HodgkinHuxley(t, y, basic_params, induction_params, ...
 %       activation parameters, `m`, `h` and `n`, respectively and for
 %       magnetic flux, `phi`
 %   basic_params : vector [1x10], Hodgkin-Huxley model parameters -
-%       injected currend amplitude [uA/cm^2], finish time point of injected
-%       current influence [ms], Na ion channel reversal potential [mV], K
-%       ion channel reversal potential [mV], leakage channel reversal
-%       potential [mV], Na ion channel conductance [mS/cm^2], K ion channel
+%       injected currend amplitude [uA/cm^2], start time point of injected
+%       current stimulus [ms], finish time point of injected current
+%       stimulus [ms], Na ion channel reversal potential [mV], K ion
+%       channel reversal potential [mV], leakage channel reversal potential
+%       [mV], Na ion channel conductance [mS/cm^2], K ion channel
 %       conductance [mS/cm^2], leakage channel conductance [mS/cm^2]
 %       membrane capacitance [F/cm^2], neuron ambient temperature [°C]
 %   induction_params : vector [1x5], additional induction-based parameters,
 %       induction coefficient, memristor parameters a & b, magnetic flux
 %       potential-based change scaler, magnetic flux leakage scaler
-%   periodic_current, optional : scalar [1x1], 0 or 1 for constant or
-%       low-high frequency current, respectively
+%   is_periodic, optional : scalar [1x1], 0 or 1 for constant or low-high
+%       frequency current, respectively
 %
 % Returns
 %   hh_ode : matrix [5, length(t)] where the first row stands for the
@@ -32,15 +33,16 @@ function hh_ode = HodgkinHuxley(t, y, basic_params, induction_params, ...
     
     % H-H model parameters unpacking
     A = basic_params(1);
-    t_stop = basic_params(2);
-    E_Na = basic_params(3);
-    E_K = basic_params(4);
-    E_L = basic_params(5);
-    gbar_Na = basic_params(6);
-    gbar_K = basic_params(7);
-    gbar_L = basic_params(8);
-    C_m = basic_params(9);
-    T = basic_params(10);
+    t_start = basic_params(2);
+    t_stop = basic_params(3);
+    E_Na = basic_params(4);
+    E_K = basic_params(5);
+    E_L = basic_params(6);
+    gbar_Na = basic_params(7);
+    gbar_K = basic_params(8);
+    gbar_L = basic_params(9);
+    C_m = basic_params(10);
+    T = basic_params(11);
     
     % induction parameters unpacking
     k = induction_params(1);
@@ -57,12 +59,13 @@ function hh_ode = HodgkinHuxley(t, y, basic_params, induction_params, ...
     phi = y(5);
     
     % current
-    if (~(exist('periodic_current', 'var')) || periodic_current==0)
-        current = Iinj(A, t, t_stop);
-    elseif periodic_current==1
-        w_hf = 1/t_stop;
-        w_lf = w_hf*100;
-        current = Iinj_periodic(A/10, A/2, A/2, w_hf, w_lf, t, t_stop);
+    if (~(exist('is_periodic', 'var')) || is_periodic==0)
+        current = Iinj(A, t, t_start, t_stop);
+    elseif is_periodic==1 || is_periodic==true
+        w_lf = 1/(t_stop - t_start);
+        w_hf = w_lf*100;
+        current = Iinj_periodic(A/20, A, A, w_hf, w_lf, t, t_start, ...
+            t_stop);
     end
     
     % ode system additionally considering the effect of the temperature and

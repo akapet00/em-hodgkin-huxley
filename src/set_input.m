@@ -12,8 +12,9 @@ if save_figures
 end
 
 %% HH model electrical constants
-A = 10.0;           % amplitude of injected current density [uA/cm^2]
-t_stop = 300.0;     % finish time point of injected current influence
+A = 20.0;           % amplitude of injected current density [uA/cm^2]
+t_start = 0.0;      % start time point of stimulus
+t_stop = 300.0;     % finish time point of stimulus
 E_Na = 50.0;        % reversal potential in Na ion channel [mV]
 E_K = -77.0;        % reversal potential in K ion channel [mV]
 E_L = -54.387;      % leakage reversal potential [mV]
@@ -24,7 +25,7 @@ C_m = 1.0;          % membrane capacitance [F/cm^2]
 T = 6.3;            % temperature [°C]
 
 %% induction parameters
-k = 0.100;          % induction coefficient -- feedback gain of the medium
+k = 0.001;          % induction coefficient -- feedback gain of the medium
 a = 0.400;          % memristor parameter
 b = 0.020;          % memeristor parameter
 k1 = 0.001;         % scaler for potential-based change on magnetic flux
