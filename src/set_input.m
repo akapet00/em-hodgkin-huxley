@@ -2,7 +2,7 @@ clear;
 
 %% save output
 save_data = false;
-save_figures = true;
+save_figures = false;
 
 if save_data
     datadir = fullfile('output', 'deterministic_model', 'data');

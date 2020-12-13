@@ -7,7 +7,7 @@ set_input;
 % raw output for further post-processing and sensitivity analysis
 var_percents = [5., 10., 20., 50.];
 sc_points = [3, 5, 7, 9];
-is_periodic = True;
+is_periodic = true;
 A = 5;
 for vp_idx = 1:numel(var_percents)
     var_percent = var_percents(vp_idx);
