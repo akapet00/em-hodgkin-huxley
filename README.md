@@ -1,9 +1,9 @@
-# Stochastic analyis of the influence of electromagnetic radiation on action potential of a neuron considering uncertainty in conductivity of ion channels
+# Stochastic analysis of the influence of electromagnetic radiation on action potential of a neuron considering uncertainty in conductivity of ion channels
 
 ## Overview
 The effect of electromagnetic radiation by means of electromagnetic induction on action potential dynamics using the Hodgkin-Huxley neuron model is assessed. Additionaly, the sensitivity analysis considering uncertainty in conductivity of sodium, pottasium and leakage ion channel is performed.
 The fluctuation or changes in neuron dynamics are well-known response to magnetic field whose external source is, most often, the transcranial magnetic stimulation (TMS) device which operates at extremely high magnetic flux density and is used in therapeutic purposes (treatment of neurophysiological disorders and other neural degenerations).
-Once the magnetic field penetrates the cell cortex, the elctric field is generated, which further causes the generation of electrovital current through a neuron's axon.
+Once the magnetic field penetrates the cell cortex, according to Maxwell’s electromagnetic induction theorem, the electric field is generated, which further causes the electrovital current flow through a neuron's axon.
 Since additional current is now applied, ion pumps are amplified (or weakened) and the membrane potential is changed -- action potential dynamics is changed, which will lead to a change in neuronal activity or, in the big picture, to a change of the complete brain metabolism.
 Also, the effect of temperature on neuronal activity is observed given simple analytical formula.
 
@@ -21,14 +21,14 @@ Set Hodgkin-Huxley neuron model electrical constants, its initial conditions and
 Furthermore, set the simulation time and stimulation current shape and period.
 `generate_dataset.m` should not be changed and is used only for data generation.
 Run any script that is titled `run_X.m` where X is one of the following:
-* `main` - calculate and visualize the membrane potential dynamics and limit cycles of a neuron stimulated with a constant injected current for different scenarios (different temperatures with/without electromagnetic induction)
+* `main` - calculate and visualize the membrane potential dynamics, gating variables dynamics and limit cycles of a neuron stimulated with a constant injected current
+* `multiple` - calculate and visualize the membrane potential dynamics for different scenarios (different temperatures with/without electromagnetic induction)
 * `isi` - bifurcation analysis, interspike interval (ISI) for a different scenarios considering multiple values of induction coefficient and several temperatures
-* `isi_ci` - uncertainty quantification and sensitivity analysis regarding dynamics of ISI for different values of ion channel conductance
-* `bifurcation` - [not working] bifurcation analysis, max and min membrane voltage for different induction coefficients and temperature -- in experimental phase
+* `isi_ci` - generate data for sensitivity analysis regarding dynamics of ISI for different values of ion channel conductance
 
 Directory `output` contains two subsequent directories:
 * `deterministic_model`, which holds sintetic data and figures generated out of deterministic Hodgkin-Huxley model
-* `sensitivity_analysis`, which holds data obtained via stochastic collocation method where ion channel conductances are taken as random variables. Additionaly, ANOVA output is also available.
+* `sensitivity_analysis`, which holds data obtained via stochastic collocation method where ion channel conductances are taken as random variables
 
 ## Author
 [Ante Lojic Kapetanovic](http://adria.fesb.hr/~alojic00/)
