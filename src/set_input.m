@@ -1,8 +1,8 @@
 clear;
 
 %% save output
-save_data = 0;
-save_figures = 0;
+save_data = false;
+save_figures = true;
 
 if save_data
     datadir = fullfile('output', 'deterministic_model', 'data');
@@ -12,7 +12,7 @@ if save_figures
 end
 
 %% HH model electrical constants
-A = 20.0;           % amplitude of injected current density [uA/cm^2]
+A = 10.0;           % amplitude of injected current density [uA/cm^2]
 t_start = 0.0;      % start time point of stimulus
 t_stop = 300.0;     % finish time point of stimulus
 E_Na = 50.0;        % reversal potential in Na ion channel [mV]
@@ -21,8 +21,9 @@ E_L = -54.387;      % leakage reversal potential [mV]
 gbar_Na = 120.0;    % Na conductance [mS/cm^2]
 gbar_K = 36.0;      % K conductance [mS/cm^2]
 gbar_L = 0.3;       % leakage conductance [mS/cm^2]
-C_m = 1.0;          % membrane capacitance [F/cm^2]
+C_m = 1.0;          % membrane capacitance [uF/cm^2]
 T = 6.3;            % temperature [°C]
+is_periodic = 0;    % periodic behaviour and noise to external current
 
 %% induction parameters
 k = 0.001;          % induction coefficient -- feedback gain of the medium
