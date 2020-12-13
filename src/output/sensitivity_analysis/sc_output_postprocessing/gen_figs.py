@@ -1,4 +1,3 @@
-from itertools import cycle
 import os
 
 import matplotlib.pyplot as plt
@@ -6,7 +5,7 @@ import numpy as np
 from scipy.io import loadmat
 
 
-DATA_PATH = 'tsim-300_tIinjstop-300_T-15_k-0-2'
+DATA_PATH = 'mean_ISI_tsim-300_tIinj-0-300_A-10_noise-0_T-15_k-0-2'
 K_LIST = np.linspace(0, 2, 50)
 SCP_LIST = [3, 5, 7, 9]
 CV_LIST = [5, 10, 20, 50]
@@ -36,7 +35,7 @@ def load_data(ci, sc):
     return mean_mat, var_mat, skew_mat, kurt_mat
 
 
-def multiview(savefig=False):
+def multiview(showfig=True, savefig=False):
     nrows = len(CV_LIST)
     ncols = len(SCP_LIST)
     plotting_config(nrows, ncols)
@@ -59,13 +58,14 @@ def multiview(savefig=False):
                 ax[cv_idx, sc_idx].set_ylabel('$mISI (k)$ [ms]')
             ax[cv_idx, sc_idx].legend(loc='best')
     plt.tight_layout()
-    plt.show()
+    if showfig:
+        plt.show()
     if savefig:
         fig.savefig(fname=os.path.join('figures', f'{DATA_PATH}_multiview.eps'),
             format='eps', bbox_inches='tight')
 
 
-def sc_convergence(savefig=False):
+def sc_convergence(showfig=True, savefig=False):
     figmarks = ['ko-', 'ks-', 'k^:', 'kv:']
     nfigs = len(CV_LIST)
     plotting_config(nfigs, 4)
@@ -98,13 +98,14 @@ def sc_convergence(savefig=False):
             ax[2, cv_idx].legend(loc='best')
             ax[3, cv_idx].legend(loc='best')           
     plt.tight_layout()
-    plt.show()
+    if showfig:
+        plt.show()
     if savefig:
         fig.savefig(fname=os.path.join('figures', f'{DATA_PATH}_convergence.eps'),
             format='eps', bbox_inches='tight')
 
 
-def anova(savefig=False):
+def anova(showfig=True, savefig=False):
     from cycler import cycler
     plt.rcParams.update({
         'axes.prop_cycle': cycler('linestyle', ['-', ':', '--'])})
@@ -129,14 +130,16 @@ def anova(savefig=False):
             ax[1, cv_idx].set_ylabel('$2^{nd}$ order sensitivity')
             ax[2, cv_idx].set_ylabel('total effect sensitivity')
     plt.tight_layout()
-    plt.show()
+    if showfig:
+        plt.show()
     if savefig:
         fig.savefig(fname=os.path.join('figures', f'{DATA_PATH}_anova.eps'),
             format='eps', bbox_inches='tight')
 
 
 if __name__ == "__main__":
+    showfig = False
     savefig = True
-    multiview(savefig)
-    sc_convergence(savefig)
-    anova(savefig)
+    multiview(showfig, savefig)
+    sc_convergence(showfig, savefig)
+    anova(showfig, savefig)
