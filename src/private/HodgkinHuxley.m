@@ -59,14 +59,12 @@ function hh_ode = HodgkinHuxley(t, y, basic_params, induction_params, ...
     phi = y(5);
     
     % current
-    if (~(exist('is_periodic', 'var')) || is_periodic==0)
+    if is_periodic
+        current = Iinj_periodic(A/10, 0, A, 0, 100/t_stop, t, t_start, t_stop);
+    else
         current = Iinj(A, t, t_start, t_stop);
-    elseif is_periodic==1 || is_periodic==true
-        w_lf = 1/(t_stop - t_start);
-        w_hf = w_lf*100;
-        current = Iinj_periodic(A/20, A, A, w_hf, w_lf, t, t_start, ...
-            t_stop);
     end
+
     
     % ode system additionally considering the effect of the temperature and
     % magnetic flux
