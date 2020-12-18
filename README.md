@@ -25,6 +25,7 @@ Run any script that is titled `run_X.m` where X is one of the following:
 * `multiple` - calculate and visualize the membrane potential dynamics for different scenarios (different temperatures with/without electromagnetic induction)
 * `isi` - bifurcation analysis, interspike interval (ISI) for a different scenarios considering multiple values of induction coefficient and several temperatures
 * `isi_ci` - generate data for sensitivity analysis regarding dynamics of ISI for different values of ion channel conductance
+* `entropy` - calculate entropy from ISI probability mass function for cases with noisy periodic and constant dc stimulus, respectively
 
 Directory `output` contains two subsequent directories:
 * `deterministic_model`, which holds sintetic data and figures generated out of deterministic Hodgkin-Huxley model
