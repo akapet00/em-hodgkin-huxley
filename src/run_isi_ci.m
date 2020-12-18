@@ -9,12 +9,14 @@ var_percents = [5., 10., 20., 50.];
 sc_points = [3, 5, 7, 9];
 is_periodic = true;
 A = 5;
+t_stop = 1000;
 for vp_idx = 1:numel(var_percents)
     var_percent = var_percents(vp_idx);
     for sp_idx = 1:numel(sc_points)
         sc_point = sc_points(sp_idx);
         filename = [num2str(var_percent), '_perCent_DoE_SC_', ...
             num2str(sc_point), '.mat'];
+        
         filepath =  fullfile('output', 'sensitivity_analysis', ...
             'sc_input', filename);
         load(filepath);
@@ -44,7 +46,7 @@ for vp_idx = 1:numel(var_percents)
                     is_periodic), ...
                     t_span, y0);
                 V = y(:, 1);
-                [V_spike, t_spike] = findpeaks(V, t);
+                [V_spike, t_spike] = findpeaks(V, t, 'MinPeakHeight', -40);
                 isi = diff(t_spike);
                 mean_isi_per_k(k_idx) = mean(isi);
             end
