@@ -1,5 +1,5 @@
 set_input;
-t_stop = 1500;
+t_stop = 1000;
 k = 0.1;
 
 %% low entropy regime -- tonic bursting achieved via noisy current stimulus
