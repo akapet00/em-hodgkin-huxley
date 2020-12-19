@@ -9,7 +9,8 @@ var_percents = [5., 10., 20., 50.];
 sc_points = [3, 5, 7, 9];
 is_periodic = true;
 A = 5;
-t_stop = 1000;
+t_stop = 300;
+
 for vp_idx = 1:numel(var_percents)
     var_percent = var_percents(vp_idx);
     for sp_idx = 1:numel(sc_points)
@@ -25,7 +26,7 @@ for vp_idx = 1:numel(var_percents)
         gbar_L_list = DoE(:,3); % maximum leakage ion channel conductance
 
         T = 6.3; % fixed temperature
-        ks = linspace(0.0, 2.0, 50); % multiple induction coeffs
+        ks = linspace(0.0, 5.0, 50); % multiple induction coeffs
         mean_isi_per_k_per_gbar = zeros(numel(ks), numel(gbar_Na_list));
         tic;
         for gbar_idx = 1:length(gbar_Na_list)
@@ -46,7 +47,7 @@ for vp_idx = 1:numel(var_percents)
                     is_periodic), ...
                     t_span, y0);
                 V = y(:, 1);
-                [V_spike, t_spike] = findpeaks(V, t, 'MinPeakHeight', -40);
+                [V_spike, t_spike] = findpeaks(V, t, 'MinPeakHeight', -50);
                 isi = diff(t_spike);
                 mean_isi_per_k(k_idx) = mean(isi);
             end
