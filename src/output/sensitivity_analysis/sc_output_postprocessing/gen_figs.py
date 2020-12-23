@@ -5,8 +5,8 @@ import numpy as np
 from scipy.io import loadmat
 
 
-DATA_PATH = 'mean_ISI_tsim-300_tIinj-0-300_A-5_noise-1_T-6.3_k-0-2'
-K_LIST = np.linspace(0, 2, 50)
+DATA_PATH = 'mean_ISI_tsim-300_tIinj-0-300_A-5_noise-1_T-6.3_k-0-5'
+K_LIST = np.linspace(0, 5, 50)
 SCP_LIST = [3, 5, 7, 9]
 CV_LIST = [5, 10, 20, 50]
 
@@ -124,8 +124,8 @@ def anova(showfig=True, savefig=False):
 
 
 if __name__ == "__main__":
-    showfig = True
-    savefig = False
+    showfig = False
+    savefig = True
     multiview(showfig, savefig)
     sc_convergence(showfig, savefig)
     anova(showfig, savefig)
