@@ -1,13 +1,13 @@
-Code repository for the paper titled:
+Code for the paper:
 
-# Stochastic Sensitivity Analysis of the Effect of Electromagnetic Induction on a Cortex Neuron's Electrical Activity
+# Stochastic Sensitivity Analysis of the Effect of Electromagnetic Induction on a Cortex Neuron's Electrophysiology
 
 ## Abstract
-This paper examines the effect of the electromagnetic induction on the electrophysiology of a single cortex neuron through two different modes associated with the nature of the external neuronal stimulus.
+This paper examines the effect of electromagnetic induction on the electrophysiology of a single cortex neuron through two different modes associated with the nature of the external neuronal stimulus.
 By using the recently extended induction-based variant of the well-known and biologically plausible Hodgkin-Huxley neuron model, bifurcation analysis is performed.
-In order to determine the true influence of the variability of ion channel conductance values, stochastic sensitivity analysis is performed *post hoc*.
-Additionally, numerical simulations are enriched with uncertainty quantification, observing conductivity of ion channels as random variables.
-The aim of the study is to computationally determine the sensitivity of the action potential dynamics with respect to the changes in the conductivity of ion channels so that the future experimental procedures, most often medical treatments, may be adapted to different individuals in various environmental conditions.
+In order to determine true influence of the variability of ion channels conductivity, the stochastic sensitivity analysis is performed *post hoc*.
+Additionally, numerical simulations are enriched with uncertainty quantification, observing values of ion channels conductivity as random variables.
+The aim of the study is to computationally determine the sensitivity of the action potential dynamics with respect to the changes in conductivity of each ion channel so that the future experimental procedures, most often medical treatments, may be adapted to different individuals in various environmental conditions.
 
 ## Run the experiments
 Go to `src` directory using MATLAB (version R2020a/b recommended, prereqs include Machine Learning Toolbox and Signal Processing Toolbox).
