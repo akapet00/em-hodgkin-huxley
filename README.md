@@ -1,11 +1,12 @@
 Code for the paper:
 
-# Stochastic Sensitivity Analysis of the Effect of Electromagnetic Induction on a Cortex Neuron's Electrophysiology
+# Stochastic analysis of the electromagnetic induction effect on a neuron's action potential dynamics
 
 ## Abstract
 This paper examines the effect of electromagnetic induction on the electrophysiology of a single cortex neuron through two different modes associated with the nature of the external neuronal stimulus.
 By using the recently extended induction-based variant of the well-known and biologically plausible Hodgkin-Huxley neuron model, bifurcation analysis is performed.
-In order to determine true influence of the variability of ion channels conductivity, the stochastic sensitivity analysis is performed *post hoc*.
+Electromagnetic induction caused by magnetic flux is captured using a polynomial approximation ofa memristor embedded into the neuron model.
+In order to determine true influence of the variability of ion channels conductivity, the stochastic sensitivity analysis is performed post hoc.
 Additionally, numerical simulations are enriched with uncertainty quantification, observing values of ion channels conductivity as random variables.
 The aim of the study is to computationally determine the sensitivity of the action potential dynamics with respect to the changes in conductivity of each ion channel so that the future experimental procedures, most often medical treatments, may be adapted to different individuals in various environmental conditions.
 
@@ -32,4 +33,4 @@ To appear.
 [Ante Lojic Kapetanovic](http://adria.fesb.hr/~alojic00/)
 
 ## License
-[MIT](https://github.com/antelk/hodgkin-huxley-model/blob/main/LICENSE)
+[MIT](https://github.com/antelk/em-hodgkin-huxley/blob/main/LICENSE)
