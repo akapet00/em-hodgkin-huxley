@@ -1,6 +1,6 @@
 set_input;
 save_data = true;
-t_stop = 2500;
+t_stop = 1000;
 k = 0.1;
 
 %% low entropy regime -- tonic bursting achieved via noisy current stimulus
@@ -14,7 +14,7 @@ t_span = [0, t_stop];
 [t, y] = ode45(@(t, y) ... 
     HodgkinHuxley(t, y, basic_params, induction_params, is_periodic), ...
     t_span, y0);
-I = Iinj_periodic(A/10, 0, A, 0, 100/t_stop, t, t_start, t_stop);
+I = Iinj_periodic(A, 0, A, 0, 100/t_stop, t, t_start, t_stop);
 V = y(:, 1);
 [V_spike, t_spike] = findpeaks(V, t, 'MinPeakHeight', -40);
 isi = diff(t_spike);
@@ -40,11 +40,11 @@ if save_data
     filename = ['entropy', ...
         '_tsim-', num2str(t_span(2)), ...
         '_tIinj-', num2str(t_start), '-', num2str(t_stop), ...
-        '_isPeriodic-', num2str(is_periodic), ...
+        '_isPeriodic-', num2str(is_periodic), ...sturges
         '_T-', num2str(T), ...
         '_k-', num2str(k), '.mat'];
         filepath =  fullfile('output', 'deterministic_model', ...
-            'paper_figures', filename);
+            'data', filename);
         save(filepath, 't', 'V', 'I', 't_spike', 'V_spike', 'isi');
 end
 
@@ -73,7 +73,7 @@ legend('V(t)', 'local maxima');
 grid on;
  
 subplot(2, 2, 4)
-p = histogram(isi, 'binmethod', 'sqrt', 'normalization', 'probability', ...
+p = histogram(isi, 'binmethod', 'sqrt', ... 'normalization', 'probability', ...
     'edgecolor', 'k', 'facecolor', 'r');
 pmf = p.Values(p.Values>0);
 entropy = -sum(pmf .* log2(pmf));
@@ -88,17 +88,6 @@ if save_data
         '_T-', num2str(T), ...
         '_k-', num2str(k), '.mat'];
         filepath =  fullfile('output', 'deterministic_model', ...
-            'paper_figures', filename);
+            'data', filename);
         save(filepath, 't', 'V', 'I', 't_spike', 'V_spike', 'isi');
-end
-
-if save_figures
-    figname = fullfile('output', 'deterministic_model', ...
-        'paper_figures', ['entropy_dc_vs_noise', ...
-        '_tsim-', num2str(t_span(2)), ...
-        '_tIinj-', num2str(t_start), '-', num2str(t_stop), ...
-        '_T-', num2str(T), ...
-        '_k-', num2str(k)]);
-    savefig(fig1, [figname, '.fig']);
-    saveas(fig1, [figname, '.eps']);
 end
