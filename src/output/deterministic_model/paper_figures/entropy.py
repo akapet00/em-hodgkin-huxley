@@ -1,3 +1,5 @@
+import os
+
 import matplotlib.pyplot as plt
 from matplotlib.ticker import FormatStrFormatter
 import numpy as np
@@ -14,7 +16,6 @@ def plotting_config(nrows=1, ncols=1):
         'font.size': 14,
         'figure.figsize': (4.774 * ncols, 2.950 * nrows),
         'lines.linewidth': 1,
-        'lines.dashed_pattern': (3, 5),
         'axes.labelsize': 14,
         'axes.titlesize': 14,
         'grid.linewidth': 0.5,
@@ -25,6 +26,7 @@ def plotting_config(nrows=1, ncols=1):
 
 
 def load_data(mat_path, mat_variable):
+    mat_path = os.path.join(os.pardir, 'data', mat_path)
     mat = loadmat(mat_path)
     return mat[mat_variable].ravel()
 
@@ -71,6 +73,6 @@ def main(showfig, savefig):
 
 
 if __name__ == "__main__":
-    showfig = False
+    showfig = True
     savefig = False
     main(showfig, savefig)
