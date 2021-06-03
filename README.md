@@ -21,6 +21,7 @@ Run any script that is titled `run_`<`x`>`.m` where `x` is one of the following:
 * `isi` - bifurcation analysis, interspike interval (ISI) for a different scenarios considering multiple values of induction coefficient and several temperatures
 * `isi_ci` - generate data for sensitivity analysis regarding dynamics of ISI for different values of ion channel conductance
 * `entropy` - calculate entropy from ISI probability mass function for cases with noisy periodic and constant dc stimulus, respectively
+* `activity_modes` - neuronal dynamics in two exposure scenarios (no magnetic fields vs. strong magnetic field) while the input current is not sufficiently strong to cause spiking
 
 `output` directory holds two subsequent directories:
 * `deterministic_model`, which holds sintetic data and figures generated out of deterministic Hodgkin-Huxley model, more details in `README` file in the directory;
