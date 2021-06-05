@@ -1,0 +1,4 @@
+src/output/deterministic_model/data/*
+src/output/deterministic_model/figures/*
+src/output/sensitivity_analysis/sc_output/*
+
