@@ -1,6 +1,8 @@
 src/output/deterministic_model/data/*.csv
-src/output/deterministic_model/figures/*.csv
-src/output/sensitivity_analysis/sc_output/*.csv
 src/output/deterministic_model/data/*.mat
+src/output/deterministic_model/figures/*.csv
 src/output/deterministic_model/figures/*.mat
+src/output/deterministic_model/figures/*.fig
+src/output/deterministic_model/figures/*.eps
+src/output/sensitivity_analysis/sc_output/*.csv
 src/output/sensitivity_analysis/sc_output/*.mat
