@@ -1,9 +1,11 @@
 set_input;
-is_periodic = 1;
+opts = odeset('RelTol', 1e-9, 'AbsTol', 1e-9);
+is_periodic = 0;
+t_stop = 3000;
 
 %% run 1: multiple temperatures for several induction coeffs
-ks = [0.03, 0.09, 0.27, 0.81];
-Ts = linspace(1.0, 30.0, 30);
+ks = [0.0, 0.03, 0.09, 0.27, 0.81, 1.0, 2.0, 3.0, 4.0, 5.0];
+Ts = linspace(1.0, 40.0, 30);
 tic;
 for i = 1:length(Ts)
     T = Ts(i);
@@ -17,7 +19,7 @@ for i = 1:length(Ts)
         [t, y] = ode45(@(t, y) ...
             HodgkinHuxley(t, y, basic_params, induction_params, ...
                 is_periodic), ...
-            t_span, y0);
+            t_span, y0, opts);
 
         if save_data
             writematrix(["t", "V", "m", "h", "n", "phi"; t, y], ...
@@ -37,7 +39,7 @@ toc;
 
 %% run 2: multiple induction coeffs for several temps
 ks = linspace(0.0, 5.0, 100);
-Ts = [5.0, 10.0, 15.0, 20.0];
+Ts = [0.0, 5.0, 10.0, 15.0, 20.0, 25.0, 30.0, 35.0, 40.0];
 tic;
 for i = 1:length(Ts)
     T = Ts(i);
@@ -51,7 +53,7 @@ for i = 1:length(Ts)
         [t, y] = ode45(@(t, y) ...
             HodgkinHuxley(t, y, basic_params, induction_params, ...
                 is_periodic), ...
-            t_span, y0);
+            t_span, y0, opts);
 
         if save_data
             writematrix(["t", "V", "m", "h", "n", "phi"; t, y], ...
