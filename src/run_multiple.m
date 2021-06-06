@@ -39,14 +39,16 @@ if save_figures
 end
 
 %% experiment: multiple k1s and k21 dependance
-opts = odeset('RelTol', 1e-8, 'AbsTol', 1e-10);
+opts = odeset('RelTol', 1e-6, 'AbsTol', 1e-6);
 f = waitbar(0, '1', 'Name', 'Simulating...', ...
     'CreateCancelBtn', 'setappdata(gcbf,''canceling'',1)');
-k = 0.3;
-k1s = linspace(0.0001, 0.1, 10);
-k2s = linspace(0.001, 1, 10);
+k = 0.1;
+A = 3;
+k1s = linspace(0.0001, 0.01, 10);
+k2s = linspace(0.001, 0.1, 10);
 T = 6.3;
 t_stop = 1000;
+is_periodic = true;
 
 nrows = numel(k1s);
 ncols = numel(k2s);
@@ -78,9 +80,38 @@ for i = 1:nrows
         t = t(:, 1);
         V = y(:, 1);
         [V_spike, t_spike] = findpeaks(V, t, 'MinPeakHeight', 0);
-        isi = diff(t_spike);
+        isi = diff(t_spike(2:end));
         mean_isis(i, j) = mean(isi);
-        mean_sfs(i, j) = numel(V_spike) / (t_stop / 1000);
+        mean_sfs(i, j) = numel(V_spike(2:end)) / (t_stop / 1000);
     end
 end
+
 close(f, 'force');
+
+[K1_mesh, K2_mesh] = meshgrid(k1s, k2s);
+fig2 = figure('renderer', 'painters', 'position', [100, 100, 600, 500]);
+contourf(K1_mesh, K2_mesh, mean_isis);
+c = colorbar;
+c.Title.String = 'mISI [s]';
+xlabel('k1'); ylabel('k2');
+
+if save_data
+    filename = ['k1k2_influence', ...
+        '_tsim-', num2str(t_span(2)), ...
+        '_tIinj-', num2str(t_start), '-', num2str(t_stop), ...
+        '_isPeriodic-', num2str(is_periodic), ...
+        '_T-', num2str(T), ...
+        '_k-', num2str(k), '.mat'];
+        filepath =  fullfile('output', 'deterministic_model', ...
+            'data', filename);
+        save(filepath, 'k1s', 'k2s', 'mean_isis', 'mean_sfs');
+end
+
+if save_figures
+    figname = fullfile(figdir, ['k1k2_influence', ...
+        '_tsim-', num2str(t_span(2)), ...
+        '_tIinj-', num2str(t_start), '-', num2str(t_stop), ...
+        '_noise-', num2str(is_periodic)]);
+    savefig(fig2, [figname, '.fig']);
+    saveas(fig2, [figname, '.eps']);
+end
