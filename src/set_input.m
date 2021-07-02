@@ -1,7 +1,7 @@
 clear;
 
 %% save output
-save_data = false;
+save_data = true;
 save_figures = false;
 
 if save_data
