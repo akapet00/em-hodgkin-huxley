@@ -5,8 +5,8 @@ import numpy as np
 from scipy.io import loadmat
 
 
-DATA_PATH = 'mean_ISI_tsim-300_tIinj-0-300_A-5_noise-1_T-6.3_k-0-5'
-K_LIST = np.linspace(0, 5, 50)
+DATA_PATH = 'mean_ISI_tsim-300_tIinj-0-300_A-10_noise-0_T-15_k-0-2'
+K_LIST = np.linspace(0, 2, 50)
 SCP_LIST = [3, 5, 7, 9]
 CV_LIST = [5, 10, 20]
 
@@ -15,14 +15,14 @@ def plotting_config(ncols=1, nrows=1):
     plt.rcParams.update({
         'text.usetex': True,
         'font.family': 'serif',
-        'font.size': 16,
+        'font.size': 10,
         'figure.figsize': (4.774 * ncols, 2.950 * nrows),
-        'axes.labelsize': 16,
-        'axes.titlesize': 16,
+        'axes.labelsize': 10,
+        'axes.titlesize': 10,
         'grid.linewidth': 0.5,
-        'legend.fontsize': 16,
-        'xtick.labelsize': 16,
-        'ytick.labelsize': 16,
+        'legend.fontsize': 10,
+        'xtick.labelsize': 10,
+        'ytick.labelsize': 10,
     })
 
 
@@ -44,6 +44,7 @@ def singleview(showfig=True, savefig=False):
         lb = mean_mISI - 2 * np.sqrt(var_mISI)
         ub = mean_mISI + 2 * np.sqrt(var_mISI)
         fig, ax = plt.subplots()
+        #ax.set(xticks=[0.0, 1.0, 2.0, 3.0, 4.0, 5.0])
         ax.plot(K_LIST, mean_mISI, color='black', label=f'$\\langle$mISI$\\rangle$')
         ax.fill_between(K_LIST, lb, ub, color='lightgray', label=f'$95$\% CI, CV = ${cv}$\%')
         ax.set_xlabel('$k$')
@@ -144,7 +145,7 @@ def anova(showfig=True, savefig=False):
 if __name__ == "__main__":
     showfig = False
     savefig = True
-    # singleview(showfig, savefig)
+    singleview(showfig, savefig)
     # multiview(showfig, savefig)
     # sc_convergence(showfig, savefig)
-    anova(showfig, savefig)
+    # anova(showfig, savefig)
