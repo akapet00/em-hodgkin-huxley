@@ -6,7 +6,7 @@ import numpy as np
 from scipy.io import loadmat
 
 
-MAT_PATH = 'k1k2_influence_tsim-1000_tIinj-0-1000_isPeriodic-1_T-6.3_k-0.1.mat'
+MAT_PATH = 'k1k2_influence_tsim-1000_tIinj-0-1000_isPeriodic-0_T-6.3_k-0.3.mat'
 
 
 def plotting_config(nrows=1, ncols=1):
