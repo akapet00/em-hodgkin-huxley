@@ -5,24 +5,24 @@ import numpy as np
 from scipy.io import loadmat
 
 
-DATA_PATH = 'mean_ISI_tsim-300_tIinj-0-300_A-10_noise-0_T-15_k-0-2'
-K_LIST = np.linspace(0, 2, 50)
+DATA_PATH = 'SF_tsim-1000_tIinj-0-1000_A-10_noise-0_T-15_k-0-5'
+K_LIST = np.linspace(0, 5, 50)
 SCP_LIST = [3, 5, 7, 9]
 CV_LIST = [5, 10, 20]
 
 
-def plotting_config(ncols=1, nrows=1):
+def plotting_config(ncols=1, nrows=1, font_size=10):
     plt.rcParams.update({
         'text.usetex': True,
         'font.family': 'serif',
-        'font.size': 10,
+        'font.size': font_size,
         'figure.figsize': (4.774 * ncols, 2.950 * nrows),
-        'axes.labelsize': 10,
-        'axes.titlesize': 10,
+        'axes.labelsize': font_size,
+        'axes.titlesize': font_size,
         'grid.linewidth': 0.5,
-        'legend.fontsize': 10,
-        'xtick.labelsize': 10,
-        'ytick.labelsize': 10,
+        'legend.fontsize': font_size,
+        'xtick.labelsize': font_size,
+        'ytick.labelsize': font_size,
     })
 
 
@@ -35,20 +35,20 @@ def load_data(ci, sc):
 
 
 def singleview(showfig=True, savefig=False):
-    plotting_config()
+    plotting_config(font_size=10)
     sc = 5
     for cv in CV_LIST:
         data = load_data(cv, sc)
-        mean_mISI = data[0]['M'].ravel()
-        var_mISI = data[1]['V'].ravel()
-        lb = mean_mISI - 2 * np.sqrt(var_mISI)
-        ub = mean_mISI + 2 * np.sqrt(var_mISI)
+        mean_SF = data[0]['M'].ravel()
+        var_SF = data[1]['V'].ravel()
+        lb = mean_SF - 2 * np.sqrt(var_SF)
+        ub = mean_SF + 2 * np.sqrt(var_SF)
         fig, ax = plt.subplots()
-        #ax.set(xticks=[0.0, 1.0, 2.0, 3.0, 4.0, 5.0])
-        ax.plot(K_LIST, mean_mISI, color='black', label=f'$\\langle$mISI$\\rangle$')
+        ax.set(xticks=[0.0, 1.0, 2.0, 3.0, 4.0, 5.0])
+        ax.plot(K_LIST, mean_SF, color='black', label=f'$\\langle$SF$\\rangle$')
         ax.fill_between(K_LIST, lb, ub, color='lightgray', label=f'$95$\% CI, CV = ${cv}$\%')
         ax.set_xlabel('$k$')
-        ax.set_ylabel('mISI $(k)$ [ms]')
+        ax.set_ylabel('SF $(k)$')
         ax.legend(loc='best')
         #plt.tight_layout()
         if showfig:
@@ -69,12 +69,12 @@ def multiview(showfig=True, savefig=False):
             var_mISI = data[1]['V'].ravel()
             lb = mean_mISI - 2 * np.sqrt(var_mISI)
             ub = mean_mISI + 2 * np.sqrt(var_mISI)
-            ax[cv_idx, sc_idx].plot(K_LIST, mean_mISI, color='black', label=f'$\\langle mISI \\rangle$, ${sc}$ SC points%')
+            ax[cv_idx, sc_idx].plot(K_LIST, mean_mISI, color='black', label=f'$\\langle$SF$\\rangle$, ${sc}$ SC points%')
             ax[cv_idx, sc_idx].fill_between(K_LIST, lb, ub, color='lightgray', label=f'$95$% CI, CV = ${cv}$')
             if cv_idx == nrows-1:
                 ax[cv_idx, sc_idx].set_xlabel('$k$')
             if sc_idx == 0:
-                ax[cv_idx, sc_idx].set_ylabel('$mISI (k)$ [ms]')
+                ax[cv_idx, sc_idx].set_ylabel('$SF (k)$')
             ax[cv_idx, sc_idx].legend(loc='best')
     plt.tight_layout()
     if showfig:
@@ -86,27 +86,21 @@ def multiview(showfig=True, savefig=False):
 def sc_convergence(showfig=True, savefig=False):
     figmarks = ['ko-', 'ks-', 'k^:', 'kv:']
     nfigs = len(CV_LIST)
-    plotting_config(nfigs, 2)
+    plotting_config(nfigs, 2, font_size=16)
     fig, ax = plt.subplots(2, nfigs, sharex=True, squeeze=True)
-    #ax[-1, 0].set(xticks=[0.0, 1.0, 2.0, 3.0, 4.0, 5.0])
+    ax[-1, 0].set(xticks=[0.0, 1.0, 2.0, 3.0, 4.0, 5.0])
     for cv_idx, cv in enumerate(CV_LIST):
         for sc_idx, sc in enumerate(SCP_LIST):
             data = load_data(cv, sc)
-            mean_mISI = data[0]['M'].ravel()
-            var_mISI = data[1]['V'].ravel()
-            # skew_mISI = data[2]['S'].ravel()
-            # kurt_mISI = data[3]['K'].ravel()
-            ax[0, cv_idx].plot(K_LIST, mean_mISI, figmarks[sc_idx], markevery=2, label=f'${sc}$ SC points')
+            mean_SF = data[0]['M'].ravel()
+            var_SF = data[1]['V'].ravel()
+            ax[0, cv_idx].plot(K_LIST, mean_SF, figmarks[sc_idx], markevery=2, label=f'${sc}$ SC points')
             ax[0, cv_idx].set_title(f'CV = ${cv}$\%')
-            ax[1, cv_idx].plot(K_LIST, var_mISI, figmarks[sc_idx], markevery=2, label=f'${sc}$ SC points')
-            # ax[2, cv_idx].plot(K_LIST, skew_mISI, figmarks[sc_idx], markevery=2, label=f'$Skew(mISI)$, ${sc}$ SC points')
-            # ax[3, cv_idx].plot(K_LIST, kurt_mISI, figmarks[sc_idx], markevery=2, label=f'$Kurt(mISI)$, ${sc}$ SC points')
+            ax[1, cv_idx].plot(K_LIST, var_SF, figmarks[sc_idx], markevery=2, label=f'${sc}$ SC points')
             ax[1, cv_idx].set_xlabel('$k$')
             if cv_idx == 0:
-                ax[0, cv_idx].set_ylabel('$\\langle$mISI$\\rangle(k)$ [ms]')
-                ax[1, cv_idx].set_ylabel('$Var($mISI$)(k)$ [ms]')
-                # ax[2, cv_idx].set_ylabel('$Skew(mISI)(k)$ [ms]')
-                # ax[3, cv_idx].set_ylabel('$Kurt(mISI)(k)$ [ms]')
+                ax[0, cv_idx].set_ylabel('$\\langle$SF$\\rangle(k)$')
+                ax[1, cv_idx].set_ylabel('$Var($SF$)(k)$')
     handles, labels = [l for l in ax[0, cv_idx].get_legend_handles_labels()]
     fig.legend(handles, labels, bbox_to_anchor=(0.815, 1.025), ncol=4)
     if showfig:
@@ -119,7 +113,7 @@ def anova(showfig=True, savefig=False):
     from cycler import cycler
     plt.rcParams.update({'axes.prop_cycle': cycler('linestyle', ['-', ':', '--'])})
     nfigs = len(CV_LIST)
-    plotting_config(nfigs, 2)
+    plotting_config(nfigs, 2, font_size=16)
     sc = 5
     fig, ax = plt.subplots(2, nfigs, sharex=True, sharey=True, squeeze=True)
     for cv_idx, cv in enumerate(CV_LIST):
@@ -145,7 +139,7 @@ def anova(showfig=True, savefig=False):
 if __name__ == "__main__":
     showfig = False
     savefig = True
-    singleview(showfig, savefig)
+    # singleview(showfig, savefig)
     # multiview(showfig, savefig)
     # sc_convergence(showfig, savefig)
-    # anova(showfig, savefig)
+    anova(showfig, savefig)

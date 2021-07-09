@@ -82,7 +82,8 @@ for i = 1:nrows
         [V_spike, t_spike] = findpeaks(V, t, 'MinPeakHeight', -40);
         isi = diff(t_spike(2:end));
         mean_isis(i, j) = mean(isi);
-        mean_sfs(i, j) = numel(V_spike(2:end)) / (t_stop / 1000);
+        act_spikes_idx = diff(t_spike) > 1;
+        mean_sfs(i, j) = sum(act_spikes_idx) / (t_stop / 1000);
     end
 end
 
