@@ -35,7 +35,7 @@ def load_data(ci, sc):
 
 
 def singleview(showfig=True, savefig=False):
-    plotting_config(font_size=10)
+    plotting_config(font_size=14.4)
     sc = 5
     for cv in CV_LIST:
         data = load_data(cv, sc)
@@ -45,10 +45,10 @@ def singleview(showfig=True, savefig=False):
         ub = mean_SF + 2 * np.sqrt(var_SF)
         fig, ax = plt.subplots()
         ax.set(xticks=[0.0, 1.0, 2.0, 3.0, 4.0, 5.0])
-        ax.plot(K_LIST, mean_SF, color='black', label=f'$\\langle$SF$\\rangle$')
+        ax.plot(K_LIST, mean_SF, color='black', label=f'SF $(k)$')
         ax.fill_between(K_LIST, lb, ub, color='lightgray', label=f'$95$\% CI, CV = ${cv}$\%')
         ax.set_xlabel('$k$')
-        ax.set_ylabel('SF $(k)$')
+        ax.set_ylabel('SF $(k)$ [Hz]')
         ax.legend(loc='best')
         #plt.tight_layout()
         if showfig:
@@ -139,7 +139,7 @@ def anova(showfig=True, savefig=False):
 if __name__ == "__main__":
     showfig = False
     savefig = True
-    # singleview(showfig, savefig)
+    singleview(showfig, savefig)
     # multiview(showfig, savefig)
     # sc_convergence(showfig, savefig)
-    anova(showfig, savefig)
+    # anova(showfig, savefig)
