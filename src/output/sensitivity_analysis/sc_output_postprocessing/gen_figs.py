@@ -5,7 +5,7 @@ import numpy as np
 from scipy.io import loadmat
 
 
-DATA_PATH = 'SF_tsim-1000_tIinj-0-1000_A-10_noise-0_T-15_k-0-5'
+DATA_PATH = 'SF_tsim-1000_tIinj-0-1000_A-5_noise-1_T-6.3_k-0-5'
 K_LIST = np.linspace(0, 5, 50)
 SCP_LIST = [3, 5, 7, 9]
 CV_LIST = [5, 10, 20]
@@ -127,8 +127,8 @@ def anova(showfig=True, savefig=False):
             ax[0, cv_idx].set_ylabel('$1^{st}$ and $2^{nd}$ order')
             ax[1, cv_idx].set_ylabel('total effect')
     ax[-1, 0].set(xticks=[0.0, 1.0, 2.0, 3.0, 4.0, 5.0])
-    ax[0, -1].legend(['$S_1(g_{Na})$', '$S_1(g_{K})$', '$S_1(g_{L})$', '$S_2(g_{Na}, g_{K})$', '$S_2(g_{Na}, g_{L})$', '$S_2(g_{K}, g_{L})$'], loc='center right', bbox_to_anchor=(1.6, 0.5))
-    ax[1, -1].legend(['$S_t(g_{Na})$', '$S_t(g_{K})$', '$S_t(g_{L})$'], loc='center right', bbox_to_anchor=(1.5, 0.5))
+    ax[0, -1].legend(['$S_1(\\bar{g}_\\mathrm{Na})$', '$S_1(\\bar{g}_\\mathrm{K})$', '$S_1(\\bar{g}_{L})$', '$S_2(\\bar{g}_\\mathrm{Na}, \\bar{g}_\\mathrm{K})$', '$S_2(\\bar{g}_\\mathrm{Na}, \\bar{g}_{L})$', '$S_2(\\bar{g}_\\mathrm{K}, \\bar{g}_{L})$'], loc='center right', bbox_to_anchor=(1.6, 0.5))
+    ax[1, -1].legend(['$S_t(\\bar{g}_\\mathrm{Na})$', '$S_t(\\bar{g}_\\mathrm{K})$', '$S_t(\\bar{g}_{L})$'], loc='center right', bbox_to_anchor=(1.5, 0.5))
     plt.tight_layout()
     if showfig:
         plt.show()
@@ -139,7 +139,7 @@ def anova(showfig=True, savefig=False):
 if __name__ == "__main__":
     showfig = False
     savefig = True
-    singleview(showfig, savefig)
+    # singleview(showfig, savefig)
     # multiview(showfig, savefig)
     # sc_convergence(showfig, savefig)
-    # anova(showfig, savefig)
+    anova(showfig, savefig)
