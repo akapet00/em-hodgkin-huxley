@@ -15,9 +15,28 @@ Additionally, numerical simulations are enriched with uncertainty quantification
 The aim of the study is to computationally determine the sensitivity of the action potential dynamics with respect to changes in conductivity of each ion channel so that the future experimental procedures, most often medical treatments, may be adapted to different individuals in various environmental conditions.
 
 ## Citation
-The article is accapted for publication in Nonlinear Dynamics, but is not yet available online. The preprint version of the article is available [on demand](alojic00@fesb.hr).
+The article is available online: https://link.springer.com/article/10.1007%2Fs11071-021-06762-z
 
-Citation will appear once the article is officialy published.
+Read-only version: rdcu.be/ctm6b
+
+To cite, please use the following:
+
+    Lojic Kapetanovic, A., Susnjara, A. & Poljak, D. Stochastic analysis of the electromagnetic induction effect on a neuron’s action potential dynamics. Nonlinear Dyn (2021). https://doi.org/10.1007/s11071-021-06762-z
+
+or in bibtex format:
+```
+@article{Kapetanovic2021stochastic,
+    author={Loji{\'{c}} Kapetanovi{\'{c}}, Ante
+    and {\v{S}}u{\v{s}}njara, Anna
+    and Poljak, Dragan},
+    title={Stochastic analysis of the electromagnetic induction effect on a neuron's action potential dynamics},
+    journal={Nonlinear Dynamics},
+    year={2021},
+    issn={1573-269X},
+    doi={10.1007/s11071-021-06762-z},
+    url={https://doi.org/10.1007/s11071-021-06762-z}
+}
+```
 
 ## Reproduce the results
 Go to `src` directory using MATLAB (version R2020a/b recommended, prerequisites include Machine Learning Toolbox and Signal Processing Toolbox).
