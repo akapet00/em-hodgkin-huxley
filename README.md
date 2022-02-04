@@ -6,32 +6,27 @@ Code for the paper:
 [Ante Lojic Kapetanovic](http://adria.fesb.hr/~alojic00/), Anna Susnjara, Dragan Poljak
 
 ## Abstract
-The presence of time-varying electromagnetic fields across a neuron cell may cause changes in its electrical characteristics, most notably, in the action potential dynamics.
-This phenomenon is examined by simulating electrophysiology of a single cortex neuron.
-Magnetic flux is captured by using a polynomial approximation of a memristor embedded into Hodgkin-Huxley model, equivalent electrical circuit of a neuron cell.
-Bifurcation analysis is carried out for two different electrical modes associated with the nature of the external neuronal stimulus.
-Aiming to determine the true influence of the variability of ion channels conductivity, the stochastic sensitivity analysis is undertaken *post hoc*.
-Additionally, numerical simulations are enriched with uncertainty quantification, observing values of ion channel conductivity as random variables.
-The aim of the study is to computationally determine the sensitivity of the action potential dynamics with respect to changes in conductivity of each ion channel so that the future experimental procedures, most often medical treatments, may be adapted to different individuals in various environmental conditions.
+The presence of time-varying electromagnetic fields across a neuron cell may cause changes in its electrical characteristics, most notably, in the action potential dynamics. This phenomenon is examined by simulating electrophysiology of a single cortex neuron. Magnetic flux is captured by using a polynomial approximation of a memristor embedded into Hodgkin–Huxley model, equivalent electrical circuit of a neuron cell. Bifurcation analysis is carried out for two different electrical modes associated with the nature of the external neuronal stimulus. Aiming to determine the true influence of the variability of ion channels conductivity, the stochastic sensitivity analysis is undertaken post hoc. Additionally, numerical simulations are enriched with uncertainty quantification, observing values of ion channel conductivity as random variables. The aim of the study is to computationally determine the sensitivity of the action potential dynamics with respect to changes in conductivity of each ion channel so that the future experimental procedures, most often medical treatments, may be adapted to different individuals in various environmental conditions.
 
 ## Citation
-The article is available online: https://link.springer.com/article/10.1007%2Fs11071-021-06762-z
-
-Read-only version: rdcu.be/ctm6b
+The article is freely available online: https://link.springer.com/article/10.1007%2Fs11071-021-06762-z
 
 To cite, please use the following:
 
-    Lojic Kapetanovic, A., Susnjara, A. & Poljak, D. Stochastic analysis of the electromagnetic induction effect on a neuron’s action potential dynamics. Nonlinear Dyn (2021). https://doi.org/10.1007/s11071-021-06762-z
+    Lojić Kapetanović, A., Šušnjara, A. & Poljak, D. Stochastic analysis of the electromagnetic induction effect on a neuron’s action potential dynamics. Nonlinear Dyn 105, 3585–3602 (2021). https://doi.org/10.1007/s11071-021-06762-z
 
 or in bibtex format:
 ```
-@article{Kapetanovic2021stochastic,
+@article{Kapetanovic2021Stochastic,
     author={Loji{\'{c}} Kapetanovi{\'{c}}, Ante
     and {\v{S}}u{\v{s}}njara, Anna
     and Poljak, Dragan},
     title={Stochastic analysis of the electromagnetic induction effect on a neuron's action potential dynamics},
     journal={Nonlinear Dynamics},
+    volume={105},
+    issue={4},
     year={2021},
+    pages={3585-3602},
     issn={1573-269X},
     doi={10.1007/s11071-021-06762-z},
     url={https://doi.org/10.1007/s11071-021-06762-z}
